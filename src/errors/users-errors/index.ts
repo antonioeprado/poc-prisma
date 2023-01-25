@@ -1,4 +1,4 @@
-import { ApplicationError } from "@protocols";
+import { ApplicationError, InvalidPayloadError } from "@protocols";
 
 export function userNotRegistered(): ApplicationError {
   return {
@@ -11,5 +11,13 @@ export function wrongInfo(): ApplicationError {
   return {
     name: "wrongInfo",
     message: "Wrong email or password.",
+  };
+}
+
+export function invalidPayload(details: string[]): InvalidPayloadError {
+  return {
+    name: "InvalidPayloadError",
+    message: "Invalid payload",
+    details,
   };
 }
