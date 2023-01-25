@@ -35,6 +35,7 @@ model userFamilyRelations {
   Family Families @relation(fields: [familyOwner], references: [familyOwner])
   userId Int
   User Users @relation(fields: [userId], references: [id])
+  request Boolean @default(true)
   createdAt DateTime? @default(now())
 }
 
