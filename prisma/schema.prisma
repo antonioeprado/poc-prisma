@@ -12,11 +12,21 @@ datasource db {
 
 model Users {
   id Int @id @default(autoincrement())
+  email String @unique
   name String
+  password String
   createdAt DateTime? @default(now())
   Families Families[]
   Rel userFamilyRelations[]
   ShoppingList ShoppingList[]
+  Session Sessions[]
+}
+
+model Sessions {
+  id Int @id @default(autoincrement())
+  token String
+  userId Int
+  User Users @relation(fields: [userId], references: [id])
 }
 
 model Families {
