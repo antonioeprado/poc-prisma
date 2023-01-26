@@ -1,15 +1,28 @@
 import { prisma } from "@config";
-import { PrismaPromise, ShoppingList } from "@prisma/client";
+import { Prisma, PrismaPromise, ShoppingList } from "@prisma/client";
 import { UserProduct } from "@protocols";
 
-export function registerProduct(
-  product: UserProduct
-): PrismaPromise<ShoppingList> {
+function registerProduct(product: UserProduct): PrismaPromise<ShoppingList> {
   return prisma.shoppingList.create({ data: product });
 }
 
-export function retrieveAllProductsByUser(
-  id: number
+function retrieveAllProductsByUser(
+  userId: number
 ): PrismaPromise<ShoppingList[]> {
-  return prisma.shoppingList.findMany({ where: { userId: id } });
+  return prisma.shoppingList.findMany({ where: { userId } });
 }
+
+function changeProductStatus(userId: number, id: number) {
+  return prisma.shoppingList.updateMany({
+    where: { id, userId },
+    data: { isBought: true },
+  });
+}
+
+const ShoppingListRepository = {
+  registerProduct,
+  retrieveAllProductsByUser,
+  changeProductStatus,
+};
+
+export { ShoppingListRepository };
