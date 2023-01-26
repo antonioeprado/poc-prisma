@@ -11,12 +11,24 @@ export function validateParams<T>(schema: ObjectSchema<T>) {
   return validateBySchema(schema, "params");
 }
 
-function validateBySchema(schema: ObjectSchema, type: "body" | "params") {
+export function validateHeaders<T>(schema: ObjectSchema<T>) {
+  return validateBySchema(schema, "headers");
+}
+
+function validateBySchema(
+  schema: ObjectSchema,
+  type: "body" | "params" | "headers"
+) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schema.validate(req[type], { abortEarly: false });
-    if (!error) next();
-    res
-      .status(httpStatus.BAD_REQUEST)
-      .send(invalidPayload(error.details.map((err) => err.message)));
+    const requestType = type === "headers" ? req[type].token : req[type];
+    const { error } = schema.validate(requestType, { abortEarly: false });
+
+    if (!error) {
+      next();
+    } else {
+      res
+        .status(httpStatus.BAD_REQUEST)
+        .send(invalidPayload(error.details.map((err) => err.message)));
+    }
   };
 }
