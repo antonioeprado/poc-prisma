@@ -8,7 +8,11 @@ export async function receiveToken(
   next: NextFunction
 ) {
   const token = req.headers.authorization.replace("Bearer ", "");
-  const status = await validateToken(token);
-  if (!status) return res.sendStatus(httpStatus.UNAUTHORIZED);
-  next();
+  try {
+    const userId = await validateToken(token);
+    res.locals.user = userId;
+    next();
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
+  }
 }

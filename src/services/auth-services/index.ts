@@ -1,3 +1,4 @@
+import { UserValidated } from "@protocols";
 import { createSession, findSession } from "@repositories/auth-repository";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -16,8 +17,8 @@ export async function createToken(userId: number): Promise<string> {
   return token;
 }
 
-export async function validateToken(token: string): Promise<boolean> {
+export async function validateToken(token: string): Promise<UserValidated> {
   const isValid = await findSession(token);
   if (!isValid) throw new Error("Invalid token!");
-  return true;
+  return { userId: isValid.userId };
 }
