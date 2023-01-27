@@ -1,5 +1,5 @@
 import { receiveToken, validateHeaders } from "@middlewares";
-import { tokenSchema } from "@schemas/auth.schemas";
+import { tokenSchema } from "@schemas";
 import { Router } from "express";
 
 const authRouter = Router();

@@ -1,4 +1,4 @@
-import { signIn, signUp } from "@controllers/users.controllers";
+import { signIn, signUp } from "@controllers";
 import { validateBody } from "@middlewares";
 import { signInSchema, signUpSchema } from "@schemas";
 import { Router } from "express";
