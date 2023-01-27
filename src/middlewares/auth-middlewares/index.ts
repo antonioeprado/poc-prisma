@@ -7,8 +7,8 @@ export async function receiveToken(
   res: Response,
   next: NextFunction
 ) {
-  const token = req.headers.authorization.replace("Bearer ", "");
   try {
+    const token = req.headers.authorization.replace("Bearer ", "");
     const userId = await validateToken(token);
     res.locals.user = userId;
     next();
